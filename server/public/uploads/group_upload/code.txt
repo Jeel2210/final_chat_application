@@ -1,0 +1,122 @@
+.........when send message came on first
+
+const s = list.filter((item) => item.id !== getData("selectedUser").id);
+s.unshift(getData("selectedUser"));
+
+.........new message came on first when sidebar userlist called
+
+const moveToFirst = list.filter(
+(item) => item.id !== data.sender.id
+);
+moveToFirst.unshift(data.sender);
+moveToFirst[0].newM = true;
+return moveToFirst;
+
+..........tagname
+
+.....state
+const [tagModel, setTagModel] = useState(false);
+const [tagname, settagname] = useState("");
+const [tagList, settagList] = useState([]);
+
+.....method
+
+  const onchange = (event) => {
+    const value = event.target.value;
+    if (value.endsWith("@")) {
+      setTagModel(true);
+      APi.getAllUsers({
+        Authorization: `Bearer ${getData("user").token}`,
+      })
+        .then((res) => {
+          settagList([...res.data.data]);
+        })
+        .catch(() => {
+          settagList([]);
+        });
+    }
+    if (value === "") {
+      setTagModel(false);
+    }
+    setText(value);
+  };
+
+  const closeTagModel = () => {
+    setTagModel(false);
+    settagname("");
+  };
+
+  const addTagName = (user) => {
+    console.log("user", user);
+    let addName = text + user.name + " ";
+    setText(addName);
+    setTagModel(false);
+  };
+
+  const tagNameFilter = (event) => {
+    const value = event.target.value;
+    settagname(value);
+
+    APi.getAllUsers({
+      Authorization: `Bearer ${getData("user").token}`,
+    })
+      .then((res) => {
+        const list = [...res.data.data];
+        const filterList = list.filter((item) => {
+          if (item.name.match(value, "/gi")) {
+            return item;
+          }
+        });
+        settagList(filterList);
+      })
+      .catch(() => {
+        settagList([]);
+      });
+  };
+
+.....model
+
+<ModalField
+    visible={tagModel}
+    title="Attachment"
+    className="uploadmodal"
+    onCancel={closeTagModel}
+    footer={false}
+>
+    <div
+    style={{
+        maxHeight: "100px",
+        overflow: "auto",
+        marginTop: "15px",
+    }}
+    className="overflowDiv"
+    >
+    <div>
+        <input
+        autoFocus
+        value={tagname}
+        onChange={(e) => tagNameFilter(e)}
+        />
+    </div>
+    <div>
+        <ScrollToBottom>
+        {tagList.map((item) => (
+            <div onClick={() => addTagName(item)}>{item.name}</div>
+        ))}
+        </ScrollToBottom>
+    </div>
+    </div>
+</ModalField>
+
+
+.......for find a tagname
+
+let splitSpace = message.message;
+let findTagName = splitSpace.split(" ");
+let tagName = findTagName.filter((item) => item.startsWith("@"));
+
+........find a link
+
+let splitSpace = message.message;
+let findLink = splitSpace.split(" ");
+let Links = findLink.filter((item) => item.startsWith("http"));

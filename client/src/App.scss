@@ -1,0 +1,16 @@
+@import "./globals";
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+// .app_window {
+//   display: flex;
+//   background: linear-gradient(325.78deg, #2a8bf2 14.76%, #7cb8f7 87.3%);
+// }
+.ant-message-notice-content{
+  background: #171616 !important;
+  color: white;
+  border-radius: 10px !important;
+}

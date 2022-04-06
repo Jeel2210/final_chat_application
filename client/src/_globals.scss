@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ant-modal-header {
+  text-align: center;
+  background: #f3f4f7 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 13px;
+  .ant-modal-title {
+    color: #8fa8ba !important;
+    letter-spacing: 0.75px;
+    font-size: 14px;
+  }
+}
+
+.uploadmodal {
+  .ant-modal-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+  .ant-upload-select {
+    border: 2px dotted #66666a54;
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    vertical-align: middle;
+  }
+  .anticon svg {
+    display: inline-block;
+    fill: #6e6e6e;
+  }
+  .ant-upload-text {
+    color: #40a9ff !important;
+    font-size: 14px;
+    font-weight: bolder;
+  }
+  .ant-upload {
+    display: grid;
+    cursor: pointer;
+    padding-top: 5px;
+  }
+  .ant-upload-drag-icon {
+    svg {
+      fill: #40a9ff;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .ant-upload-list-item-name {
+    color: white;
+    font-size: 11px;
+    font-weight: bolder;
+  }
+  .ant-upload-text-icon .anticon svg {
+    color: white;
+  }
+  .ant-upload-list-item-card-actions {
+    svg {
+      color: white;
+    }
+  }
+  .ant-upload-list-item:hover .ant-upload-list-item-info {
+    background-color: transparent;
+  }
+}
+.controlLabel {
+  font-size: 12px;
+  font-weight: 460;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: 1.1px;
+  line-height: normal;
+  color: black;
+  margin-bottom: 7px;
+}
+#warroom_upload {
+  background: #3c94dc;
+  width: 30%;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.footerContent {
+  justify-content: flex-end;
+  display: flex;
+}
+.overflowDiv::-webkit-scrollbar {
+  height: 5px;
+  width: 3px;
+}
+.overflowDiv::-webkit-scrollbar-thumb {
+  background-color: #429fe4;
+}
+
+.ant-modal-close-icon {
+  color: #9ea4a9;
+  font-size: 15px;
+}
+.ant-modal-footer {
+  background: #f3f4f7;
+  border: none;
+  padding: 8px;
+  padding-right: 12px;
+  .ant-btn {
+    background: #2a8bf2;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 0.82px;
+    border: none;
+    border-radius: 5px;
+    color: #000000;
+  }
+  .ant-btn-primary {
+    background: #222222;
+    color: #ffffff;
+    letter-spacing: 0.72px;
+    font-weight: inherit;
+  }
+}
+.ant-modal-body {
+  background: #ffffff;
+  border-radius: 10px;
+  .ant-form-item-label > label {
+    color: #979797;
+  }
+  .userList::-webkit-scrollbar {
+    height: 5px;
+    width: 3px;
+  }
+  .userList::-webkit-scrollbar-thumb {
+    background-color: #429fe4;
+  }
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    display: none;
+  }
+  .ant-form-item-has-error
+    :not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+    background-color: #e7f3f9;
+  }
+  .ant-form-item-explain-error {
+    font-size: 11px;
+    font-weight: bolder;
+    letter-spacing: 0.5px;
+  }
+  .ant-select-multiple .ant-select-selection-item {
+    background: #d3d2d2;
+    border-radius: 14px;
+  }
+  .ant-select-selector {
+    background-color: #e7f3f9 !important;
+    color: black;
+    font-size: 10px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border-radius: 30px !important;
+    height: auto;
+  }
+}
+
+$backgroundColor: #282b34;
+$redColor: #ff1e56;
+$yellowColor: #ffac41;
+$greyColor: #2d343e;

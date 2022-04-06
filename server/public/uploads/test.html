@@ -1,0 +1,214 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <script src="../public//javavscript/jquery.min.js"></script>
+    <script src="../public/javavscript//socket.io.js"></script>
+
+    <script type="text/javascript">
+        console.log("host", window.location.host);
+        var socket = io.connect('http://192.168.1.164:8000');
+        // if (window.location.host.indexOf('192.168.1') >= 0) {
+        //     var socket = io.connect('http://192.168.1.164:3000');
+        // } else {
+        //     var socket = io.connect('http://app.jodidatingapp.com');
+        // }
+        // var socket = io.connect('http://' + window.location.host);
+        var filesUpload = null;
+        var file = null;
+        var send = false;
+        var bufferdata = null;
+        socket.on('connect', function() {
+            console.log("socket connected web", socket.id);
+            $(document).ready(function() {
+                var auth = localStorage.getItem('auth_token') || '0cbf2630-5346-11e8-853b-873ece2fdab5';
+                $('#auth_token').val(auth);
+                var language = localStorage.getItem('language') || 'en';
+                $('#language').val(language);
+                //socket.emit('streamingStarted',{"broadcast_stream_name":"1500531738464"});
+                $("#method").change(function() {
+                    //console.log("bufferdata",bufferdata);
+                    $('#request').val($('#method').find(':selected').attr('data-request1'));
+                });
+                $('#add').click(function(e) {
+                    var body = $('#request').val();
+                    var request = {};
+                    var method = $('#method').val();
+                    //console.log("request",request);
+                    //console.log("bufferdata",bufferdata);
+                    //request=JSON.parse(request);
+                    //console.log("request",request);
+                    //console.log("bufferdata123",bufferdata);
+
+
+                    if (body != '') {
+                        console.log("request", request);
+                        console.log("bufferdata", bufferdata);
+                        if ($('#method').val() == 'refreshToken') {
+                            request = JSON.parse(body);
+                            //    request.auth_token = $('#auth_token').val();
+                            request.language = $('#language').val();
+                            request.appVersioniOS = $('#appVersioniOS').val();
+                            request.appVersionAndroid = $('#appVersionAndroid').val();
+                        } else {
+                            var body = JSON.parse(body);
+                            request.body = body
+                            request.headers = {}
+                            request.headers.auth_token = $('#auth_token').val();
+                            request.headers.language = $('#language').val();
+                            //    request.headers.appVersioniOS = $('#appVersioniOS').val();
+                            request.headers.appVersionAndroid = $('#appVersionAndroid').val();
+                        }
+
+
+                        if (bufferdata) {
+                            request.body.image_name = file.name;
+                            request.body.image_data = bufferdata;
+                        }
+                        console.log('request', request)
+                        socket.emit(method, request);
+                    }
+                });
+                socket.on('response', function(msg) {
+                    console.log("response", msg);
+                    $('#response').val(JSON.stringify(msg));
+                    if (msg.data && msg.data.auth_token) {
+                        var auth = msg.data.auth_token
+                        $('#auth_token').val(auth)
+                        localStorage.setItem('auth_token', msg.data.auth_token)
+                    }
+                    request = undefined
+                        // setTimeout(function () {
+                        //     window.location.reload();
+                        // }, 30 * 1000);
+                });
+                $('#disconnect').click(function() {
+                    socket.io.disconnect();
+                });
+                // socket.on('reconnect', function() {
+                //  console.log('reconnect fired!',new Date());
+                // });
+                socket.on('disconnect', function() {
+                    console.log("socket disconnected web", socket.id);
+                });
+
+            });
+        });
+    </script>
+    <label>request</label></br>
+    <textarea id="request" cols="50" rows="10"></textarea></br>
+    <label>response</label></br>
+    <textarea id="response" cols="50" rows="10"></textarea></br>
+    </br>
+    <select id="method">
+   <option selected="selected">Select Method</option>
+   <option value="refreshToken" data-request1='{"refresh_token":"JFKLFTA5F5T5SA57R6SAG8TWTVED8DGKS"}'>refreshToken</option>   
+   <option value="chat" data-request1='{
+       "sender": 47, 
+       "receiver": 46, 
+       "type": "chat", 
+       "message": "hi"
+    }'>Chat</option>  
+    <option value="sendSingleImage" data-request1='{
+    "sender": 47,
+    "receiver": 46,
+    "message": {
+        "type": "image",
+        "data": {
+            "path": "http://7954-122-170-1-34.ngrok.io/dd.png",
+            "image_id": 10,
+            "currentDate": "14-10-2021"
+        }
+    }
+    
+}'>send single image</option> 
+<option value="sendMultipleImage" data-request1='{
+    "sender": 47,
+    "receiver": 46,
+    "message": {
+        "type": "image",
+        "data": {
+            "path": "http://7954-122-170-1-34.ngrok.io/dd.png",
+            "image_id": 10,
+            "currentDate": "14-10-2021"
+        }
+    }
+    
+}'>send single image</option>    
+</select>
+    <input type="button" name="save" value="Send" id="add">
+    <!--<input type="button" name="disconnect" value="disconnect" id="disconnect">-->
+    <input type="file" name="image" id="input-files" accept="image/*"><br><br>
+    <label>auth_token</label>
+    <textarea id="auth_token" cols="30" rows="6"></textarea><br><br>
+    <label>language</label>
+    <input type="text" name="language" id="language" readonly="readonly"><br><br>
+    <label>appVersioniOS</label>
+    <input type="text" name="appVersioniOS" id="appVersioniOS" value="1.0.0"><br><br>
+    <label>appVersionAndroid</label>
+    <input type="text" name="appVersionAndroid" id="appVersionAndroid" value="1.0.0">
+    <br/>
+
+    <br>
+    <br>
+    <br>
+    <b>refresh_token:</b>For IOS pass app version in "appVersioniOS" key. For android pass in "appVersionAndroid" key.
+    <br>
+
+</body>
+<script type="text/javascript">
+    init();
+    if (window.File && window.FileReader && window.FileList) {
+        //HTML5 File API ready
+        init();
+    } else {
+        //browser has no support for HTML5 File API
+        //send a error message or something like that
+        alert("Not supported");
+        //TODO
+    }
+
+    //Initialize the listeners and send the file if have.
+    function init() {
+        filesUpload = document.getElementById('input-files');
+        filesUpload.addEventListener('change', fileHandler, false);
+    }
+
+
+    //Handle the file change event to send it content.
+
+    function fileHandler(e) {
+        var files = e.target.files || e.dataTransfer.files;
+
+        if (files) {
+            //send only the first one
+            file = files[0];
+            console.log("file data", file);
+            sendFile();
+        }
+    }
+
+    function sendFile() {
+        if (file) {
+            //read the file content and prepare to send it
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                //get all content
+                console.log('Sending file...');
+                var buffer = e.target.result;
+                //console.log("buffer",buffer);
+                bufferdata = buffer;
+                console.log('file send');
+                //send the content via socket
+                //socket.emit('send-file', file.name, buffer);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    }
+</script>
+
+</html>
